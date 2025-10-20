@@ -1,0 +1,29 @@
+[project]
+name = "genai-rag-multimodal"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Tu Nombre",email = "tuemail@ejemplo.com"}
+]
+readme = "README.md"
+requires-python = "=3.11.10"
+dependencies = [
+    "pandas (>=2.3.3,<3.0.0)",
+    "transformers (>=4.57.1,<5.0.0)",
+    "torch (>=2.9.0,<3.0.0)",
+    "pillow (>=12.0.0,<13.0.0)",
+    "torchvision (>=0.24.0,<0.25.0)",
+    "ollama (>=0.6.0,<0.7.0)",
+    "langchain-openai (>=0.3.35,<0.4.0)",
+    "langchain-core (>=0.3.79,<0.4.0)",
+    "dotenv (>=0.9.9,<0.10.0)",
+    "opencv-python (>=4.12.0.88,<5.0.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "genai_rag_multimodal", from = "src"}]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
