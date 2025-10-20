@@ -5,6 +5,7 @@
 # --- Librerías ---
 import base64
 import cv2
+import logging
 from pathlib import Path
 from typing import List, Literal, Optional
 
@@ -12,6 +13,28 @@ from .config import EXTENSIONES_IMAGEN, EXTENSIONES_AUDIO, EXTENSIONES_VIDEO
 
 
 # --- Funciones Auxiliares ---
+
+def instanciar_logger(name: str) -> logging.Logger:
+    """Crea y configura un logger con StreamHandler."""
+    logger = logging.getLogger(name)
+    
+    # Establecer nivel de logging si no está configurado
+    if logger.level == logging.NOTSET:
+        logger.setLevel(logging.DEBUG)
+    
+    # Añadir handler solo si no existe
+    if not logger.handlers:
+        handler = logging.StreamHandler()
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%H:%M:%S')
+        handler.setFormatter(formatter)
+        handler.setLevel(logging.DEBUG)
+        logger.addHandler(handler)
+    
+    # Prevenir propagación a root logger para evitar duplicados
+    logger.propagate = False
+    
+    return logger
+
 
 def obtener_tipo_activo(ruta_archivo: Path) -> tuple[Optional[Literal["imagen", "audio", "video"]], str]:
     """Determina el tipo de activo según la extensión del archivo."""
@@ -53,4 +76,5 @@ def extraer_frames_video(ruta_video: Path, num_frames: int) -> List[str]:
             frames_base64.append(base64.b64encode(buffer).decode('utf-8'))
     
     cap.release()
+
     return frames_base64

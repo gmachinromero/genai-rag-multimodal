@@ -3,7 +3,6 @@
 #  Lógica principal
 
 # --- Librerías ---
-import logging
 import pandas as pd
 from pathlib import Path
 from langchain_core.messages import HumanMessage
@@ -11,21 +10,16 @@ from langchain_openai import ChatOpenAI
 from openai import OpenAI
 
 from .models import AnalisisActivo
-from .utils import obtener_tipo_activo, codificar_imagen_base64, extraer_frames_video
+from .utils import instanciar_logger, obtener_tipo_activo, codificar_imagen_base64, extraer_frames_video
 from .config import (
     DIRECTORIO_DATOS_RAW, DIRECTORIO_DATOS_PROCESADOS, ARCHIVO_SALIDA_CSV,
     MODELO_LLM_OPENAI, MODELO_WHISPER_OPENAI, OPENAI_API_KEY
 )
 
 
-# --- Configuración de logging ---
+# --- Instanciar logger ---
 
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    datefmt='%H:%M:%S'
-)
-logger = logging.getLogger(__name__)
+logger = instanciar_logger(__name__)
 
 
 
@@ -117,12 +111,14 @@ def analizar_video_con_llm(ruta_video: Path, cliente_openai: OpenAI, llm_estruct
     
     if transcripcion:
         contenido[0]["text"] += f"\nTranscripción del audio:\n{transcripcion}\n\n"
+        
     contenido[0]["text"] += "Responde SOLO con el formato JSON estructurado."
 
     analisis = llm_estructurado.invoke([HumanMessage(content=contenido)])
     analisis.transcripcion = str(transcripcion)
     
     return analisis
+
 
 
 # --- Procesamiento de directorio ---
@@ -169,6 +165,7 @@ def procesar_directorio(directorio: Path, llm_estructurado: ChatOpenAI, cliente_
             continue
 
     return pd.DataFrame(resultados)
+
 
 
 # --- Main ---
