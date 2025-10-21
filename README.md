@@ -24,10 +24,11 @@ genai-rag-multimodal/
 │   │   ├── core.py        # Lógica principal de análisis
 │   │   ├── models.py      # Modelos de datos (Pydantic)
 │   │   └── utils.py       # Funciones auxiliares
-│   ├── scripts/
-│   │   └── run_analysis.py # Punto de entrada
-│   └── analyze_assets_ollama_qwen.py  # Versión alternativa con Ollama
-│   └── analyze_assets_openai.py       # Versión con OpenAI directo
+│   ├── examples/
+│   │   ├── analyze_assets_ollama_qwen.py  # Versión alternativa con Ollama
+│   │   └── analyze_assets_openai.py       # Versión con OpenAI directo
+│   └── scripts/
+│       └── run_analysis.py # Punto de entrada
 ├── tests/
 │   └── __init__.py
 ├── .env                 # Variables de entorno (API keys)
@@ -60,7 +61,7 @@ genai-rag-multimodal/
 
 3. **Configura las variables de entorno:**
    ```bash
-   cp .env.example .env  # Si existe
+   touch .env
    # Edita .env y agrega tu OPENAI_API_KEY
    ```
 
